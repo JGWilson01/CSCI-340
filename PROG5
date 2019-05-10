@@ -1,0 +1,137 @@
+/************************************************************************
+    CSCI 340 section 1
+    TA: Daniel Baker
+    James Wilson
+    z1739305
+    Assignment: 5
+    Date Due: 10-10-17
+
+    Description: Make a program to solve the Josephus problem and to iterate
+                 through a vector and eliminate people until only one remains
+*************************************************************************/
+#include "/home/cs340/progs/17f/p5/prog5.h"
+/************************************************
+    FUNCTION: int main()
+    ARGUMENTS: none
+    RETURNS: int 0
+    NOTES: Driver function to eliminate and display the last person
+************************************************/
+int main()
+   {
+   vector<string> v;
+   typedef vector<string>::iterator it;
+   inargs in; //call in the struct from the h file
+
+   unsigned int nn = in.N; // store N in nn
+   unsigned int mm = in.M; // store M in mm
+   unsigned int kk = in.K; // store K in kk
+   unsigned int cnt = 0; // cnt initialized to 0
+
+   cout << "How many soldiers? ";
+      cin >> nn;
+         cout << nn;
+   cout << endl << "Number picked from hat? ";
+      cin >> mm;
+         cout << mm;
+   cout << endl << "How many eliminations? ";
+      cin >> kk;
+         cout << kk;
+
+   in = {nn, mm, kk}; // take input and put back into struct
+
+   init_vals(v, in); //call functiom with new values
+   print_vector(v, cnt);
+
+   it circle = v.begin(); //setting up the start of the circle
+
+   unsigned int i = 1; //index for removing people
+
+   while(v.size() > 1) //stops if size is equal to 1
+      {
+      while(i < mm) //counts through the number of soliders
+         {
+         if(circle == v.end()) //starts back at the begininning of the vector
+            {
+            circle = v.begin(); //resets the position of the index
+            }
+
+         i++; //index for when we get to M
+         circle += 1; //iterate through vector
+         }
+      if(circle == v.end()) //when we reach end when we remove index
+         {
+         circle = v.begin(); //reset to beginning again
+         }
+
+      cnt++; //count how many were deleted
+      i = (i + mm - 1) % v.size(); //when M is found
+      circle = v.erase(v.begin() + i); //erase when at selected number
+
+      if((cnt % kk) == 0) //prints out only every 7 rounds
+         {
+         print_vector(v, cnt);
+         }
+      }
+
+   print_vector(v, cnt); //prints out the last person
+
+   return 0;
+   }
+
+/************************************************
+    FUNCTION: void init_vals(vector<string>&, inargs&)
+    ARGUMENTS: reference to vector string, reference to inargs
+    RETURNS: nothing
+    NOTES: initializes the values for the vector to run the program
+************************************************/
+void init_vals(vector<string>& v, inargs& in)
+   {
+   int n = in.N; //access N from stuct and put it into n
+   v.resize(n); //resize the vector to N
+
+   generate(v.begin(), v.end(), SEQ(n)); //generate the names
+   }
+
+/************************************************
+    FUNCTION: print_vector(const vector<string>&, const unsigned&)
+    ARGUMENTS: constant reference to vector string, constant unsigned refence
+               cnt
+    RETURNS: nothing
+    NOTES: prints out the initial people, then the eliminated people, and the
+           last person, and the count
+************************************************/
+void print_vector(const vector<string>& v, const unsigned& cnt)
+   {
+   cout << endl;
+   cout << endl;
+
+   typedef vector<string>::const_iterator it;
+
+   if(cnt == 0) //starting point
+      {
+      cout << "Initial round of people: ";
+      }
+   else
+      {
+      cout << "Total people eliminated: " << cnt; //end point
+      }
+
+   cout << "---------------------------------" << endl; //for formatting
+
+   int ct = 0; //people removed
+   it circle = v.cbegin(); //start at beginning
+
+   for(circle == v.cbegin(); circle != v.cend(); circle++) //go through entire list
+      {
+      cout << *circle << " "; //derefence to get actual values
+      ct++; //add to the removed pile
+
+      if(ct == NO_ITEMS) //formatting
+         {
+         cout << endl;
+         }
+      }
+
+   cout << endl;
+   cout << endl;
+   }
