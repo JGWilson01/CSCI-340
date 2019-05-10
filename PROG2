@@ -1,0 +1,151 @@
+/************************************************************************
+CSCI 340 section 1
+TA: Daniel Baker
+James Wilson
+z1739305
+Assignment: 2
+Date Due: 9-14-17
+
+Description: Create two randomized vectors and look through them
+*************************************************************************/
+
+#include <iomanip>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "prog2.h"
+using namespace std;
+
+/************************************************
+FUNCTION: void Vectors(vector<int>&, vector<int>&, int, int)
+ARGUMENTS: vector int reference v1, v2. int s1, s2
+RETURNS: nothing
+NOTES: creates 2 vectors and randomizes them with variables
+************************************************/
+void Vectors(vector<int>& v1, vector<int>& v2, int s1, int s2)
+   {
+   srand(s1);
+   v1.clear();
+   for(int i=0; i < (ARR_SIZE); i++)
+      {
+      v1.push_back(rand() % (HIGH - LOW + 1) + LOW);
+      }
+
+   srand(s2);
+   v2.clear();
+   for(int i=0; i < TEST_ARR_SIZE; i++)
+      {
+   for(int i=0; i < TEST_ARR_SIZE; i++)
+      {
+      v2.push_back(rand() % (HIGH - LOW + 1) + LOW);
+      }
+   }
+
+/************************************************
+FUNCTION: bool linearSearch(const vector<int>&, int)
+ARGUMENTS: const int vector reference v, int x
+RETURNS: boolean
+NOTES: search through entire vector and returns true
+if value found, false if not
+************************************************/
+bool linearSearch(const vector<int>& v, int x)
+   {
+   vector<int>::const_iterator loc;
+   loc = find(v.begin(), v.end(), x);
+   if(loc != v.end())
+      {
+      return true;
+      }
+   else
+      {
+      return false;
+      }
+   }
+
+/************************************************
+FUNCTION: bool binarySearch(const vector<int>&, int)
+ARGUMENTS: const vector int reference v, int x
+RETURNS: boolean
+NOTES: searches through array beginning to end
+trying to find selected value
+************************************************/
+bool binarySearch(const vector<int>& v, int x)
+   {
+   if(binary_search(v.begin(), v.end(), x))
+      {
+      return true;
+      }
+   else
+      {
+      return false;
+      }
+   }
+
+/************************************************
+FUNCTION: int search(const vector<int>&, const vector<int>&, bool(*p)(const vector<int>&, int))
+ARGUMENTS: const vector int reference v1, v2. genereic pointer p
+RETURNS: integer
+NOTES: searches through the array and counts how many times
+that the selected variable was found
+************************************************/
+int search(const vector<int>& v1, const vector<int>& v2, bool(*p)(const vector<int>&, int))
+   {
+   int totalSucCnt = 0;
+   for(unsigned int i = 0; i < v2.size(); i++)
+      {
+      if(p(v1, v2[i]))
+         {
+         totalSucCnt++;
+         }
+      }
+   return totalSucCnt;
+   }
+
+/************************************************
+FUNCTION: void sortVector(vector<int>&)
+ARGUMENTS: vector int reference v
+RETURNS: nothing
+NOTES: sorts the vector to ascending order
+************************************************/
+void sortVector(vector<int>& v)
+   {
+   sort(v.begin(), v.end());
+   }
+
+/************************************************
+FUNCTION: void printVector(const vector<int>&)
+ARGUMENTS: const vector int v
+RETURNS: nothing
+NOTES: prints out the selected vector
+************************************************/
+void printVector(const vector<int>& v)
+   {
+   int NO_ITEMS = 16;
+   int ITEM_W = 4;
+   for(unsigned int i = 0; i < v.size(); i++)
+      {
+      if(i == (unsigned)NO_ITEMS)
+         {
+         i = 0;
+         cout << endl;
+         }
+       NO_ITEMS++;
+       cout << v.at(i) << setw(ITEM_W);
+      }
+   }
+
+/************************************************
+FUNCTION: void printStat(int, int)
+ARGUMENTS: int totalSucCnt, vectorSz)
+RETURNS: nothing
+NOTES: prints out how the statistics of how many
+times the correct value was found
+************************************************/
+void printStat(int totalSucCnt, int vectorSz)
+   {
+   cout << 100 * (float)totalSucCnt / vectorSz << "%";
+   }
+
+
+
+
