@@ -1,0 +1,64 @@
+////////////////////////////////////
+// Name: James Wilson
+// Date: 9/1/2017
+// Assignment: 1
+////////////////////////////////////
+
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
+#include "prog1.h"
+using namespace std;
+
+//For some reason these had to be here because the program wouldn't
+//recognize them from the header file
+void genRndNums(vector<int>&);
+void printVec(const vector<int>&);
+
+int main()
+{
+   vector<int> Random_vect(VEC_SIZE);
+   genRndNums(Random_vect);
+   sort(Random_vect.begin(), Random_vect.end());
+   printVec(Random_vect);
+
+   return 0;
+}
+
+//Purpose: Function to generate a vector of random numbers
+//Variables: A vector reference
+//Output: Void
+void genRndNums(vector<int>&v)
+{
+   srand(SEED);
+
+   for(unsigned int i = 0; i < v.size(); i++)
+      {
+      v[i] = (rand()%(HIGH-LOW+1)+LOW);
+      }
+}
+
+//Purpose: Function to print the numbers in the vector
+//Variables: Constant vector reference
+//Output: Void
+void printVec(const vector<int>&v)
+{
+   int numperline;
+
+   cout << "Random Generated Vector of " << VEC_SIZE << "elements"
+   << endl << endl << endl;
+
+   for(unsigned int i = 0; i < v.size(); i++)
+      {
+      cout << setw(ITEM_W) << v[i];
+      numperline = (i+1)%NO_ITEMS;
+
+      if(numperline == 0)
+         {
+         cout << endl << endl << endl;
+         }
+      }
+   cout << endl;
+}
+
