@@ -1,0 +1,109 @@
+/************************************************************************
+    CSCI 340 section 1
+    TA: Daniel Baker
+    James Wilson
+    z1739305
+    Assignment: 4
+    Date Due: 9-28-17
+
+    Description: Program to recieve, clean, and display empty and non empty
+                 words
+*************************************************************************/
+#include "prog4.h"
+
+int main()
+   {
+   map<string, int> wlist;
+   get_words(wlist);
+   print_words(wlist);
+
+   return 0;
+   }
+
+/************************************************
+    FUNCTION: void get_words(map<string, int>&)
+
+    ARGUMENTS: a map reference variable containting a string and int
+
+    RETURNS: nothing
+
+    NOTES: recieves the words and checks if they are empty or not
+************************************************/
+void get_words(map<string, int>& list)
+   {
+   string oword, cword;
+   while(cin >> oword) //open while recieving input
+      {
+      clean_entry(oword, cword); //calls the clean function
+      if(cword.length() > 0)
+         {
+         list[cword]++; //adds to the list of clean non empty words
+         }
+      cword = "";
+      }
+   }
+
+/************************************************
+    FUNCTION: void print_words(const map<string, int>&)
+
+    ARGUMENTS: constant map reference containing string and int
+
+    RETURNS: nothing
+
+    NOTES: prints out all the distinct and non empty words that were
+           cleaned
+************************************************/
+void print_words(const map<string, int>& wlist)
+   {
+   int i = 0;
+   int wordcount = 0;
+
+   typedef map<string, int> mapT;
+   mapT::const_iterator it;
+   for(it = wlist.begin(); it != wlist.end(); it++)
+      {
+      cout << left << setw(ITEM_W); //set the data to the left hand side
+      cout << it->first << " - " << it->second << " "; //prints out data from map, first is string, second is int
+
+      wordcount += it->second; //counts all the non empty words and places them into wordcount
+
+      if(++i >= NO_ITEMS)
+         {
+         i = 0;
+         cout << endl;
+         }
+      }
+   cout << "Non-empty words: " << wordcount << endl;
+   cout << "Distinct words: " << wlist.size() << endl;
+   }
+
+/************************************************
+    FUNCTION: void clean_entry(const string&, string&)
+
+    ARGUMENTS: constant string reference and string reference
+
+    RETURNS: nothing
+
+    NOTES: cleans all the words, removing all the non alphanumeric parts
+           of the word
+************************************************/
+void clean_entry(const string& sWord, string& tword)
+   {
+   unsigned int p1;
+   for(p1 = 0; p1 < sWord.length(); p1++)
+      {
+      if(isalnum(sWord[p1])) //checks to see if it is alphanumeric
+         break; //stops p1 at spot if it is
+      }
+
+   unsigned int p2 = p1;
+   for(p2 = p1; p2 < sWord.length(); p2++)
+      {
+      if(!isalnum(sWord[p2])) //checks if it is nonalphnumeric
+         break; //stops p2 if it is
+      }
+
+   tword = sWord.substr(p1, p2 - p1);
+
+   for_each(sWord.begin(), sWord.end(), ::tolower);
+   }
