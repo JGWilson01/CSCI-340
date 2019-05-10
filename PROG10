@@ -1,0 +1,105 @@
+/************************************************************************
+    CSCI 340 section 1
+    TA: Daniel Baker
+    James Wilson
+    z1739305
+    Assignment: 10
+    Date Due: 12-6-17
+
+    Description: C++ Graphs and DFS
+*************************************************************************/
+#include "/home/cs340/progs/17f/p10/wdigraph.h"
+/************************************************
+    FUNCTION: void depth_first(int u) const
+
+    ARGUMENTS: interger u
+
+    RETURNS: nothing
+
+    NOTES: searches through a graph using depth
+           first search
+************************************************/
+void wdigraph::depth_first(int u) const
+   {
+   static int fVertex = -1; //the first vertex visited
+   static bool* vst = NULL; //nodes visited
+
+   if(fVertex == -1) //no nodes viisted
+      {
+      fVertex = u; //set to the first node
+      vst = new bool(size); //create a list of all visited nodes
+      for(int i = 0; i < size; i++)
+         {
+         vst[i] = false; //all elements are set to false
+         }
+      }
+
+   cout << label[u]; //print out the label to each node
+   vst[u] = true; //set to true once visited
+
+   for(int a = 0; a != size; a++)
+      {
+      if(adj_matrix[u][a] != 0 && vst[a] != true) //print out visited nodes
+         {
+         cout << "->"; //formatting
+         depth_first(a); //recursive call for every node
+         }
+      }
+
+   if(u == fVertex) //getting back to the front
+      {
+      fVertex = -1; //reset the first vertex
+      delete[] vst; //delete any unneeded booleans
+      vst = NULL; //reset to initial value
+      cout << endl;
+      }
+   }
+
+/************************************************
+    FUNCTION: void print_graph() const
+
+    ARGUMENTS: nothing
+
+    RETURNS: nothing
+
+    NOTES: Prints out the contents the graph, and the
+           depth first search results
+***********************************************/
+void wdigraph::print_graph() const
+   {
+   cout << "Number of nodes: " << size << endl;
+   cout << "Adjacency Matrix: " << endl << endl << " |"; //formatting
+
+   for(int i = 0; i < (int)label.size(); i++)
+      {
+      cout << label[i]; //print out label stopping at the end
+      }
+
+   cout << endl << "-- |"; //formatting
+   for(int i = 0; i < (int)label.size(); i++)
+      {
+      cout << "--"; //formatting
+      }
+
+   cout << endl;
+
+   for(int i = 0; i < (int)label.size(); i++)
+      {
+      cout << label[i] << " |"; //formatting
+      for(int j = 0; j < (int)label.size(); j++)
+         {
+         if(adj_matrix[i][j] != 0)
+            {
+            cout << adj_matrix[i][j]; //print out any nonempty values
+            }
+         else
+            {
+            cout << "-"; //empty values
+            }
+         }
+      if(i < (int)label.size())
+         {
+         cout << endl << " |" << endl << endl; //start at new line
+         }
+      }
+   }
