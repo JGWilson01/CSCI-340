@@ -1,0 +1,77 @@
+/************************************************************************
+    CSCI 340 section 1
+    TA: Daniel Baker
+    James Wilson
+    z1739305
+    Assignment: 3
+    Date Due: 9-21-17
+
+    Description: To implement the sieve of Eratosthenes
+*************************************************************************/
+#include "prog3.h"
+
+int main()
+   {
+   int n;
+   set<int> s;
+
+   cout << "Enter an upper bound.";
+      cin >> n;
+   sieve(s, n);
+
+   return 0;
+   }
+
+/************************************************
+    FUNCTION: void print_primes(const set<int>&)
+    ARGUMENTS: constant integer set reference s
+    RETURNS: nothing
+    NOTES: prints out the prime numbers in the set
+************************************************/
+void print_primes(const set<int>& s)
+   {
+   int line = 0;
+
+   set<int>::iterator it;
+   for(it = s.begin(); it != s.end(); it++)
+      {
+      cout << setw(ITEM_W) << *it << " ";
+      if(line == NO_ITEMS)
+         {
+         cout << endl;
+         line = 0;
+         }
+      line++;
+      }
+   }
+
+/************************************************
+    FUNCTION: void sieve(set<int>&, int)
+    ARGUMENTS: integer set reference s, integer n
+    RETURNS: nothing
+    NOTES: removes all non prime numbers
+************************************************/
+void sieve(set<int>& s, int n)
+   {
+   for(int i = 2; i <= n; i++)
+      {
+      s.insert(i);
+      }
+
+   set<int>::iterator it;
+      it = s.begin();
+
+   while(it != s.end())
+      {
+      it++;
+      for(int m = 2; m * m <= n; m++)
+         {
+         for(int k = 2; k <= n; k++)
+            {
+            s.erase(m * k);
+            }
+            }
+         }
+      }
+   print_primes(s);
+   }
